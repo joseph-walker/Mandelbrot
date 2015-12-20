@@ -32,3 +32,13 @@ mandelbrotTest c
         where
             maximumIterations =
                 100
+
+zoomWindow :: (Double, Double) -> Int -> Int -> Double -> [(Complex Double, (Int, Int))]
+zoomWindow topLeft width height zoomFactor =
+    [ (calcPoint (fst topLeft) x :+ calcPoint (snd topLeft) y, (x, y))
+    | y <- [0 .. height]
+    , x <- [0 .. width]
+    ]
+    where
+        calcPoint offset x =
+            offset + (fromIntegral x * zoomFactor)
