@@ -10,12 +10,9 @@ mandelbrotSequence :: Complex Double -> [Complex Double]
 mandelbrotSequence c =
     iterate (mandelbrot c) (0 :+ 0)
 
-mandelbrotTest :: Complex Double -> Bool
-mandelbrotTest c
-    | length testSequence == maximumIterations =
-        True
-    | otherwise =
-        False
+mandelbrotVelocity :: Complex Double -> Int
+mandelbrotVelocity c =
+    length testSequence
         where
             testSequence =
                 take maximumIterations $ takeWhile (<= upperBound) sequenceMagnitude
@@ -25,3 +22,13 @@ mandelbrotTest c
                 100
             upperBound =
                 1e6
+
+mandelbrotTest :: Complex Double -> Bool
+mandelbrotTest c
+    | mandelbrotVelocity c == maximumIterations =
+        True
+    | otherwise =
+        False
+        where
+            maximumIterations =
+                100

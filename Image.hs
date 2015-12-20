@@ -30,12 +30,15 @@ mandelRange resolution =
 main :: IO ()
 main =
     let
+        colorComp :: Double -> Int -> Int
+        colorComp lambda x =
+            (truncate $ 255 * (2.7161259 :: Double) ** (- lambda * fromIntegral x))
+        colorScale :: Int -> Color
+        colorScale x =
+            rgb (colorComp 0.25 x) (colorComp 0.05 x) (colorComp 0.1 x)
         colorMandelPoint :: Image -> (Complex Double, Point) -> IO ()
         colorMandelPoint buffer (c, xy) =
-            if mandelbrotTest c then
-                setPixel xy (rgb 255 255 255) buffer
-            else
-                setPixel xy (rgb 0 0 0) buffer
+            setPixel xy (colorScale $ mandelbrotVelocity c) buffer
     in do
         resolution <- readLn :: IO Double
         buffer <- mandelImg resolution
