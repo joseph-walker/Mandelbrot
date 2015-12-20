@@ -32,7 +32,7 @@ main =
     let
         colorComp :: Double -> Int -> Int
         colorComp lambda x =
-            (truncate $ 255 * (2.7161259 :: Double) ** (- lambda * fromIntegral x))
+            (truncate . (255 - ) $ 255 * (2.7161259 :: Double) ** (- lambda * fromIntegral x))
         colorScale :: Int -> Color
         colorScale x =
             rgb (colorComp 0.25 x) (colorComp 0.05 x) (colorComp 0.1 x)
